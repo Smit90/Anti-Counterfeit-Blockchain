@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Find Product</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">Anti Counterfeit Blockchain</a>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a href="/" class="nav-link">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/about" active class="nav-link">About us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to the Block-Chain world!</h1>
+        <p class="lead">You can easily authenticate product based on Blockchain.</p>
+        <hr class="my-4">
+        <p>You need to enter product id and you'll get product details.</p>
+        <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
+    </div>
+
+    <div class="container text-center mb-3">
+        <label>Search Product</label>
+        <input type="text" alt="productId" id="productId" name="productId" />
+        <button class="btn btn-outline-primary" id="product">Search</button>
+    </div>
+
+    <div class="container">
+
+        <div class="row">
+            <label class="col-sm-2">Block Number:</label>
+            <div class="col-sm-10">
+                <textarea id="blockNumber" rows="5" class="form-control" readonly></textarea>
+            </div>
+        </div>
+
+        <br>
+        
+        <div class="row">
+            <label class="col-sm-2">Time: </label>
+            <div class="col-sm-10">
+                <textarea id="timestamp" rows="5" class="form-control" readonly></textarea>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <label class="col-sm-2">Product Name:</label>
+            <div class="col-sm-10">
+                <textarea id="product_name" rows="5" class="form-control" readonly></textarea>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <label class="col-sm-2">Product Details:</label>
+            <div class="col-sm-10">
+                <textarea id="product_details" rows="5" class="form-control" readonly></textarea>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <label class="col-sm-2">Amount:</label>
+            <div class="col-sm-10">
+                <textarea id="amount" rows="5" class="form-control" readonly></textarea>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <label class="col-sm-2">Sender Public Key:</label>
+            <div class="col-sm-10">
+                <textarea id="s_public_key" rows="5" class="form-control" readonly></textarea>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <label class="col-sm-2">Recipient Public Key:</label>
+            <div class="col-sm-10">
+                <textarea id="r_public_key" rows="5" class="form-control" readonly></textarea>
+            </div>
+        </div>
+
+        <br>
+
+    </div>
+
+
+    <script>
+        $(function () {
+            $('#product').click(function () {
+                $.ajax({
+                    url: '/product',
+                    type: 'POST',
+                    data: {
+                        productId: $('#productId').val()
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        document.getElementById("s_public_key").innerHTML = response['senderPublicKey'];
+                        document.getElementById("r_public_key").innerHTML = response['recipientPublicKey'];
+                        document.getElementById("product_name").innerHTML = response['productName'];
+                        document.getElementById("product_details").innerHTML = response['productDetails'];
+                        document.getElementById("amount").innerHTML = response['amount'];
+                        document.getElementById("blockNumber").innerHTML = response['blockNumber'];
+                        document.getElementById("timestamp").innerHTML = response['timestamp'];
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
